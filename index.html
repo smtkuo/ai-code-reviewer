@@ -6,16 +6,22 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/theme/monokai.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/addon/mode/simple.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/javascript/javascript.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/python/python.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/clike/clike.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/xml/xml.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/css/css.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/clike/clike.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/python/python.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/php/php.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/ruby/ruby.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/go/go.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/rust/rust.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/sql/sql.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/addon/edit/matchbrackets.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/addon/edit/closebrackets.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/addon/selection/active-line.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/addon/scroll/simplescrollbars.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/addon/scroll/simplescrollbars.min.js"></script>
     <script>
         window.FontAwesomeConfig = {
             autoReplaceSvg: 'nest',
@@ -301,6 +307,98 @@
             --color-error-900: #fef2f2;
             --color-error-focus: #ef4444;
             --color-error-content: #1f2937;
+        }
+
+        .CodeMirror {
+            height: 350px !important;
+            font-family: 'Fira Code', monospace !important;
+            font-size: 14px !important;
+            background-color: #1e1e1e !important;
+            color: #d4d4d4 !important;
+        }
+
+        .CodeMirror-gutters {
+            background-color: #1e1e1e !important;
+            border-right: 1px solid #404040 !important;
+        }
+
+        .CodeMirror-linenumber {
+            color: #858585 !important;
+        }
+
+        .CodeMirror-cursor {
+            border-left: 2px solid #a0a0a0 !important;
+        }
+
+        .CodeMirror-selected {
+            background-color: #264f78 !important;
+        }
+
+        .CodeMirror-focused {
+            outline: none !important;
+        }
+
+        /* Dark scrollbar for CodeMirror */
+        .CodeMirror-vscrollbar::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .CodeMirror-vscrollbar::-webkit-scrollbar-track {
+            background: #1e1e1e;
+        }
+
+        .CodeMirror-vscrollbar::-webkit-scrollbar-thumb {
+            background: #404040;
+            border-radius: 4px;
+        }
+
+        .CodeMirror-vscrollbar::-webkit-scrollbar-thumb:hover {
+            background: #4a4a4a;
+        }
+
+        /* Input focus styles */
+        .focus-ring {
+            transition: all 0.2s ease;
+        }
+
+        .focus-ring:focus {
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5);
+        }
+
+        /* Placeholder styles */
+        ::placeholder {
+            color: #9ca3af !important;
+            opacity: 1 !important;
+        }
+
+        :-ms-input-placeholder {
+            color: #9ca3af !important;
+        }
+
+        ::-ms-input-placeholder {
+            color: #9ca3af !important;
+        }
+
+        /* Input text colors */
+        input, select, textarea {
+            color: black !important;
+            background-color: white !important;
+        }
+
+        input::placeholder, textarea::placeholder {
+            color: #6B7280 !important;
+            opacity: 1 !important;
+        }
+
+        /* Preserve CodeMirror styles */
+        .CodeMirror, .CodeMirror * {
+            color: inherit;
+            background-color: inherit;
+        }
+
+        .CodeMirror textarea {
+            color: inherit !important;
+            background-color: transparent !important;
         }
     </style>
 
@@ -598,11 +696,11 @@
                 <div class="flex flex-col sm:flex-row items-center justify-between space-y-4 sm:space-y-0">
                     <div class="flex items-center space-x-4">
                         <i class="fa-solid fa-code text-blue-600 text-2xl"></i>
-                        <h1 class="text-xl font-semibold">CodeAnalyzer AI</h1>
+                        <h1 class="text-xl font-semibold">AI Code Reviewer</h1>
                     </div>
                     <div class="flex flex-col sm:flex-row items-center space-y-2 sm:space-y-0 sm:space-x-4 w-full sm:w-auto">
                         <select id="programming-language"
-                            class="w-full sm:w-auto bg-white border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                            class="w-full sm:w-auto bg-white border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none text-black">
                             <option>JavaScript</option>
                             <option>TypeScript</option>
                             <option>React/JSX</option>
@@ -619,7 +717,7 @@
                             <option>SQL</option>
                         </select>
                         <select id="response-language"
-                            class="w-full sm:w-auto bg-white border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                            class="w-full sm:w-auto bg-white border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none text-black">
                             <option value="en">English</option>
                             <option value="es">Spanish</option>
                             <option value="fr">French</option>
@@ -640,43 +738,43 @@
                             <div class="w-3 h-3 rounded-full bg-green-500"></div>
                         </div>
                         <div class="flex space-x-2">
-                            <button class="text-gray-400 hover:text-white" onclick="copyCode()">
+                            <button class="text-gray-400 hover:text-white transition-colors" onclick="copyCode()">
                                 <i class="fa-solid fa-copy"></i>
                             </button>
-                            <button class="text-gray-400 hover:text-white" onclick="toggleFullscreen()">
+                            <button class="text-gray-400 hover:text-white transition-colors" onclick="toggleFullscreen()">
                                 <i class="fa-solid fa-expand"></i>
                             </button>
                         </div>
                     </div>
-                    <textarea id="code-editor" class="w-full h-[350px]">// Your code here</textarea>
+                    <textarea id="code-editor" class="w-full h-[350px] bg-[#1e1e1e] text-white"></textarea>
                 </div>
                 <div class="mb-4">
-                    <label class="block text-sm font-medium mb-2">Analysis Prompt</label>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Analysis Prompt</label>
                     <textarea
-                        class="w-full h-24 px-3 sm:px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none text-sm sm:text-base"
+                        class="w-full h-24 px-3 sm:px-4 py-2 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none text-sm sm:text-base text-black placeholder-gray-500"
                         placeholder="E.g., Optimize for performance, Find security vulnerabilities..."></textarea>
                 </div>
                 <div class="mb-4">
                     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-2 space-y-2 sm:space-y-0">
-                        <label class="block text-sm font-medium">RapidAPI Key</label>
+                        <label class="block text-sm font-medium text-gray-700">RapidAPI Key</label>
                         <a href="https://rapidapi.com/bilgisamapi-api2/api/generative-ai-api-openai-gpt-4o-api-ai-integration" 
                            target="_blank"
-                           class="text-blue-600 hover:text-blue-700 text-sm flex items-center space-x-1">
+                           class="text-blue-600 hover:text-blue-700 text-sm flex items-center space-x-1 transition-colors">
                             <span>Get Key</span>
                             <i class="fa-solid fa-external-link-alt text-xs"></i>
                         </a>
                     </div>
                     <div class="flex space-x-2">
                         <input type="password" id="api-key" 
-                            class="flex-1 px-3 sm:px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none text-sm sm:text-base"
+                            class="flex-1 px-3 sm:px-4 py-2 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none text-sm sm:text-base text-black placeholder-gray-500"
                             placeholder="Enter your RapidAPI key">
-                        <button onclick="toggleApiVisibility()" class="px-3 py-2 text-gray-500 hover:text-gray-700">
+                        <button onclick="toggleApiVisibility()" class="px-3 py-2 text-gray-500 hover:text-gray-700 transition-colors">
                             <i class="fa-solid fa-eye"></i>
                         </button>
                     </div>
                 </div>
                 <button
-                    class="w-full bg-blue-600 text-white py-2 sm:py-3 rounded-lg hover:bg-blue-700 transition-colors flex items-center justify-center space-x-2 text-sm sm:text-base">
+                    class="w-full bg-blue-600 text-white py-2 sm:py-3 rounded-lg hover:bg-blue-700 transition-colors flex items-center justify-center space-x-2 text-sm sm:text-base focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
                     <i class="fa-solid fa-wand-magic-sparkles"></i>
                     <span>Run Analysis</span>
                 </button>
@@ -768,10 +866,81 @@
 <script>
     let editor;
     let currentLanguage = 'javascript';
-    let apiKey = 'c71d3857b3msh5369877d05c9fb3p199b4fjsn8aa4c82ecbff'; // Default key
+    let apiKey = 'c71d3857b3msh5369877d05c9fb3p199b4fjsn8aa4c82ecbff';
+    let appState = {
+        code: '',
+        programmingLanguage: 'JavaScript',
+        responseLanguage: 'en',
+        prompt: '',
+        apiKey: '',
+        response: null
+    };
+
+    // State management functions
+    function updateState(newState) {
+        appState = { ...appState, ...newState };
+        saveStateToUrl();
+    }
+
+    function saveStateToUrl() {
+        const stateString = JSON.stringify(appState);
+        const base64State = btoa(encodeURIComponent(stateString));
+        window.location.hash = base64State;
+    }
+
+    function loadStateFromUrl() {
+        try {
+            const hash = window.location.hash.slice(1);
+            if (hash) {
+                const stateString = decodeURIComponent(atob(hash));
+                appState = JSON.parse(stateString);
+                applyStateToUI();
+            }
+        } catch (error) {
+            console.error('Error loading state from URL:', error);
+        }
+    }
+
+    function applyStateToUI() {
+        // Set code editor content
+        if (appState.code) {
+            editor.setValue(appState.code);
+        }
+
+        // Set programming language
+        const progLangSelect = document.getElementById('programming-language');
+        if (appState.programmingLanguage) {
+            progLangSelect.value = appState.programmingLanguage;
+            updateEditorMode(appState.programmingLanguage);
+        }
+
+        // Set response language
+        const respLangSelect = document.getElementById('response-language');
+        if (appState.responseLanguage) {
+            respLangSelect.value = appState.responseLanguage;
+        }
+
+        // Set prompt
+        const promptTextarea = document.querySelector('textarea[placeholder*="Optimize"]');
+        if (appState.prompt) {
+            promptTextarea.value = appState.prompt;
+        }
+
+        // Set API key
+        if (appState.apiKey) {
+            document.getElementById('api-key').value = appState.apiKey;
+            apiKey = appState.apiKey;
+        }
+
+        // Show results if they exist
+        if (appState.response) {
+            document.getElementById('results-section').classList.remove('hidden');
+            updateResults(appState.response);
+        }
+    }
 
     document.addEventListener('DOMContentLoaded', function() {
-        // Initialize CodeMirror
+        // Initialize CodeMirror with additional options
         editor = CodeMirror.fromTextArea(document.getElementById('code-editor'), {
             mode: 'javascript',
             theme: 'monokai',
@@ -782,35 +951,62 @@
             tabSize: 4,
             lineWrapping: true,
             viewportMargin: Infinity,
-            jsx: true // Enable JSX support
+            jsx: true,
+            // Add additional options for better editor experience
+            autofocus: true,
+            scrollbarStyle: 'overlay',
+            styleActiveLine: true,
+            matchBrackets: true,
+            autoCloseBrackets: true,
+            indentWithTabs: false
+        });
+
+        // Add change event listener to editor
+        editor.on('change', function() {
+            updateState({ code: editor.getValue() });
         });
 
         // Language selection handler
-        const languageSelect = document.querySelector('select');
-        languageSelect.addEventListener('change', function(e) {
+        const progLangSelect = document.getElementById('programming-language');
+        progLangSelect.addEventListener('change', function(e) {
             currentLanguage = e.target.value;
             updateEditorMode(currentLanguage);
+            updateState({ programmingLanguage: e.target.value });
+        });
+
+        // Response language handler
+        const respLangSelect = document.getElementById('response-language');
+        respLangSelect.addEventListener('change', function(e) {
+            updateState({ responseLanguage: e.target.value });
+        });
+
+        // Prompt textarea handler
+        const promptTextarea = document.querySelector('textarea[placeholder*="Optimize"]');
+        promptTextarea.addEventListener('input', function(e) {
+            updateState({ prompt: e.target.value });
+        });
+
+        // API key input handler
+        document.getElementById('api-key').addEventListener('input', function(e) {
+            apiKey = e.target.value;
+            localStorage.setItem('rapidApiKey', apiKey);
+            updateState({ apiKey: e.target.value });
         });
 
         // Run analysis button handler
         const analyzeButton = document.querySelector('button.bg-blue-600');
         analyzeButton.addEventListener('click', runAnalysis);
 
-        // Add settings button handler
-        document.getElementById('settings-btn').addEventListener('click', toggleSettings);
+        // Load state from URL if exists
+        loadStateFromUrl();
 
         // Load saved API key if exists
         const savedApiKey = localStorage.getItem('rapidApiKey');
         if (savedApiKey) {
             apiKey = savedApiKey;
             document.getElementById('api-key').value = savedApiKey;
+            updateState({ apiKey: savedApiKey });
         }
-
-        // Add input event listener for API key
-        document.getElementById('api-key').addEventListener('input', function(e) {
-            apiKey = e.target.value;
-            localStorage.setItem('rapidApiKey', apiKey);
-        });
     });
 
     function updateEditorMode(language) {
@@ -883,7 +1079,6 @@
         const prompt = document.querySelector('textarea[placeholder*="Optimize"]').value;
         const responseLang = document.getElementById('response-language').value;
 
-        // Hide results and show loading
         document.getElementById('results-section').classList.add('hidden');
         document.getElementById('loading-section').classList.remove('hidden');
 
@@ -949,6 +1144,8 @@ ${prompt || 'Provide a comprehensive code analysis including performance, securi
                     document.getElementById('loading-section').classList.add('hidden');
                     document.getElementById('results-section').classList.remove('hidden');
                     updateResults(response.result.response);
+                    // Save response to state
+                    updateState({ response: response.result.response });
                 } catch (error) {
                     console.error('Error parsing response:', error);
                     document.getElementById('loading-section').classList.add('hidden');
@@ -966,53 +1163,171 @@ ${prompt || 'Provide a comprehensive code analysis including performance, securi
     }
 
     function updateResults(response) {
-        // Update Code Issues section
-        const issues = response.analysis.issues;
-        const issuesCount = issues.length;
-        document.querySelector('.text-red-600').textContent = `${issuesCount} Issues`;
-        
-        const issuesContainer = document.querySelector('.space-y-4');
-        issuesContainer.innerHTML = issues.map(issue => `
-            <div class="border-l-4 border-${getSeverityColor(issue.severity)}-500 pl-4">
-                <h3 class="font-medium">${issue.type}</h3>
-                <p class="text-sm text-gray-600">${issue.description}</p>
-                <p class="text-xs text-gray-500 mt-1">Location: ${issue.location}</p>
-            </div>
-        `).join('');
-
-        // Update AI Suggestions section
-        const suggestionsContainer = document.querySelector('#results-section > div:nth-child(2) .space-y-4');
-        suggestionsContainer.innerHTML = response.analysis.suggestions.map(suggestion => `
-            <div class="bg-gray-50 p-4 rounded-lg">
-                <div class="flex items-center justify-between mb-2">
-                    <span class="text-sm font-medium">${suggestion.title}</span>
-                    <button class="text-blue-600 hover:text-blue-700" onclick="copyToClipboard('${escapeHtml(suggestion.codeExample)}')">
-                        <i class="fa-solid fa-copy"></i>
-                    </button>
+        try {
+            // Update Code Issues section
+            const issues = response.analysis.issues || [];
+            const issuesCount = issues.length;
+            const issuesContainer = document.querySelector('#results-section > div:nth-child(1)');
+            issuesContainer.innerHTML = `
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="text-lg font-semibold">Code Issues</h2>
+                    <span class="bg-red-100 text-red-600 px-2 py-1 rounded-full text-sm">${issuesCount} Issues</span>
                 </div>
-                <p class="text-sm text-gray-600 mb-2">${suggestion.description}</p>
-                <pre class="text-sm text-gray-700 bg-gray-100 p-2 rounded overflow-x-auto">${suggestion.codeExample}</pre>
-                <p class="text-xs text-gray-500 mt-2">Impact: ${suggestion.impact}</p>
-            </div>
-        `).join('');
+                <div class="space-y-4">
+                    <div class="mb-4">
+                        <h3 class="text-md font-medium mb-2">Summary</h3>
+                        <p class="text-sm text-gray-600">${response.analysis.summary}</p>
+                    </div>
+                    ${issues.map(issue => `
+                        <div class="border-l-4 border-${getSeverityColor(issue.severity)}-500 pl-4">
+                            <div class="flex justify-between items-start">
+                                <h3 class="font-medium text-gray-900">${issue.type}</h3>
+                                <span class="text-xs px-2 py-1 rounded-full ${getSeverityBadgeColor(issue.severity)}">${issue.severity}</span>
+                            </div>
+                            <p class="text-sm text-gray-600 mt-1">${issue.description}</p>
+                            ${issue.location ? `<p class="text-xs text-gray-500 mt-1">Location: ${issue.location}</p>` : ''}
+                        </div>
+                    `).join('')}
+                    <div class="mt-4">
+                        <h3 class="text-md font-medium mb-2">Best Practices</h3>
+                        ${response.analysis.bestPractices.map(practice => `
+                            <div class="mb-3">
+                                <h4 class="text-sm font-medium text-gray-900">${practice.category}</h4>
+                                <ul class="list-disc list-inside text-sm text-gray-600 mt-1">
+                                    ${practice.recommendations.map(rec => `
+                                        <li>${rec}</li>
+                                    `).join('')}
+                                </ul>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>`;
 
-        // Update Overall Score section
-        const overallScore = Math.round((
-            response.analysis.codeQuality.score +
-            response.performance.score +
-            response.security.score
-        ) / 3);
-        
-        const scoreElement = document.querySelector('.text-3xl.font-bold');
-        scoreElement.textContent = `${overallScore}%`;
-        
-        // Update score circle
-        const scorePath = document.querySelector('path[stroke="#2563EB"]');
-        scorePath.setAttribute('stroke-dasharray', `${overallScore}, 100`);
+            // Update AI Suggestions section
+            const suggestions = response.analysis.suggestions || [];
+            const suggestionsContainer = document.querySelector('#results-section > div:nth-child(2)');
+            suggestionsContainer.innerHTML = `
+                <h2 class="text-lg font-semibold mb-4">AI Suggestions</h2>
+                <div class="space-y-4">
+                    <div class="mb-4">
+                        <h3 class="text-md font-medium mb-2">Code Quality Metrics</h3>
+                        ${response.analysis.codeQuality.metrics.map(metric => `
+                            <div class="mb-3">
+                                <div class="flex justify-between items-center mb-1">
+                                    <span class="text-sm font-medium">${metric.name}</span>
+                                    <span class="text-sm font-medium text-blue-600">${metric.score}%</span>
+                                </div>
+                                <p class="text-sm text-gray-600">${metric.details}</p>
+                            </div>
+                        `).join('')}
+                    </div>
+                    ${suggestions.map(suggestion => `
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="text-sm font-medium text-gray-900">${suggestion.title}</span>
+                                ${suggestion.codeExample ? `
+                                    <button class="text-blue-600 hover:text-blue-700 transition-colors" onclick="copyToClipboard('${escapeHtml(suggestion.codeExample)}')">
+                                        <i class="fa-solid fa-copy"></i>
+                                    </button>
+                                ` : ''}
+                            </div>
+                            <p class="text-sm text-gray-600 mb-2">${suggestion.description}</p>
+                            ${suggestion.codeExample ? `
+                                <pre class="text-sm text-gray-700 bg-gray-100 p-2 rounded overflow-x-auto">${escapeHtml(suggestion.codeExample)}</pre>
+                            ` : ''}
+                            ${suggestion.impact ? `
+                                <p class="text-xs text-gray-500 mt-2">Impact: ${suggestion.impact}</p>
+                            ` : ''}
+                        </div>
+                    `).join('')}
+                </div>`;
+
+            // Update Overall Score section
+            const scores = {
+                codeQuality: response.analysis.codeQuality?.score || 0,
+                performance: response.performance?.score || 0,
+                security: response.security?.score || 0
+            };
+            const overallScore = Math.round(Object.values(scores).reduce((a, b) => a + b, 0) / Object.keys(scores).length);
+            
+            const scoreContainer = document.querySelector('#results-section > div:nth-child(3)');
+            scoreContainer.innerHTML = `
+                <h2 class="text-lg font-semibold mb-4">Overall Score</h2>
+                <div class="flex items-center justify-center">
+                    <div class="relative w-32 h-32">
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <span class="text-3xl font-bold text-blue-600">${overallScore}%</span>
+                        </div>
+                        <svg class="w-full h-full" viewBox="0 0 36 36">
+                            <path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                                fill="none" stroke="#E5E7EB" stroke-width="3" />
+                            <path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                                fill="none" stroke="#2563EB" stroke-width="3" stroke-dasharray="${overallScore}, 100" />
+                        </svg>
+                    </div>
+                </div>
+                <div class="mt-6 space-y-4">
+                    <div class="space-y-2">
+                        <h3 class="text-md font-medium">Score Breakdown</h3>
+                        <div class="grid grid-cols-3 gap-2 text-sm">
+                            <div class="text-center p-2 bg-gray-50 rounded">
+                                <div class="font-medium">Code Quality</div>
+                                <div class="text-blue-600">${scores.codeQuality}%</div>
+                            </div>
+                            <div class="text-center p-2 bg-gray-50 rounded">
+                                <div class="font-medium">Performance</div>
+                                <div class="text-blue-600">${scores.performance}%</div>
+                            </div>
+                            <div class="text-center p-2 bg-gray-50 rounded">
+                                <div class="font-medium">Security</div>
+                                <div class="text-blue-600">${scores.security}%</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="space-y-2">
+                        <h3 class="text-md font-medium">Performance</h3>
+                        <div class="text-sm text-gray-600">
+                            <div class="mb-2">
+                                <h4 class="font-medium">Issues:</h4>
+                                <ul class="list-disc list-inside">
+                                    ${response.performance.issues.map(issue => `<li>${issue}</li>`).join('')}
+                                </ul>
+                            </div>
+                            <div>
+                                <h4 class="font-medium">Optimizations:</h4>
+                                <ul class="list-disc list-inside">
+                                    ${response.performance.optimizations.map(opt => `<li>${opt}</li>`).join('')}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="space-y-2">
+                        <h3 class="text-md font-medium">Security</h3>
+                        <div class="text-sm text-gray-600">
+                            <div class="mb-2">
+                                <h4 class="font-medium">Vulnerabilities:</h4>
+                                <ul class="list-disc list-inside">
+                                    ${response.security.vulnerabilities.map(vuln => `<li>${vuln}</li>`).join('')}
+                                </ul>
+                            </div>
+                            <div>
+                                <h4 class="font-medium">Recommendations:</h4>
+                                <ul class="list-disc list-inside">
+                                    ${response.security.recommendations.map(rec => `<li>${rec}</li>`).join('')}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>`;
+
+        } catch (error) {
+            console.error('Error updating results:', error);
+            alert('Error displaying analysis results. Please try again.');
+        }
     }
 
     function getSeverityColor(severity) {
-        switch(severity.toLowerCase()) {
+        switch(severity?.toLowerCase()) {
             case 'critical':
                 return 'red';
             case 'high':
@@ -1026,7 +1341,23 @@ ${prompt || 'Provide a comprehensive code analysis including performance, securi
         }
     }
 
+    function getSeverityBadgeColor(severity) {
+        switch(severity?.toLowerCase()) {
+            case 'critical':
+                return 'bg-red-100 text-red-800';
+            case 'high':
+                return 'bg-orange-100 text-orange-800';
+            case 'medium':
+                return 'bg-yellow-100 text-yellow-800';
+            case 'low':
+                return 'bg-blue-100 text-blue-800';
+            default:
+                return 'bg-gray-100 text-gray-800';
+        }
+    }
+
     function escapeHtml(unsafe) {
+        if (!unsafe) return '';
         return unsafe
             .replace(/&/g, "&amp;")
             .replace(/</g, "&lt;")
